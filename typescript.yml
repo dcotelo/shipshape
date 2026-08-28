@@ -1,0 +1,23 @@
+# Stack rules: TypeScript / Node / Next.js
+detect: ["package.json", "tsconfig.json"]
+
+files:
+  - .nvmrc
+
+rules:
+  - id: lockfile-committed
+    check: "package-lock.json / pnpm-lock.yaml / yarn.lock is in version control"
+    baseline: [OSPS-QA-02.01]
+  - id: typecheck
+    check: "tsc --noEmit runs in CI"
+  - id: lint-enforced
+    check: "ESLint runs in CI and fails the build — installed is not configured"
+  - id: format-enforced
+    check: "Prettier check runs in CI"
+  - id: node-version-pinned
+    check: ".nvmrc exists and CI uses the same version"
+  - id: dependency-audit
+    check: "npm audit / pnpm audit runs in CI with a documented threshold"
+    baseline: [OSPS-VM-05.01]
+
+required_status_checks: ["build", "test", "typecheck", "lint"]

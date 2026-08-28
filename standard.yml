@@ -1,0 +1,104 @@
+# Repository standard — policy configuration.
+# Everything opinionated lives here. The prompt (AGENTS.md) contains no policy.
+
+baseline:
+  # Pin a specific version. The agent fetches this checklist at the start of
+  # every run rather than working from memory.
+  version: "2026.02.19"
+  checklist_url: "https://baseline.openssf.org/versions/2026-02-19-checklist.md"
+  # Bump deliberately, and re-audit after bumping. Do not track "current".
+
+org:
+  owner: "<GITHUB_OWNER>"
+  shared_workflows_repo: "<GITHUB_OWNER>/.github"
+  shared_workflows_ref: "<PIN_A_SHA>"
+
+profiles:
+
+  public-oss:
+    default_tier: 2          # L1 is the floor; L2 is a reasonable target for a
+                             # project with real outside users. L3 needs signed
+                             # releases + SBOM + non-author review — opt in.
+    ask:
+      - license              # MIT / Apache-2.0 / AGPL-3.0. Apache carries an
+                             # explicit patent grant; AGPL closes network use.
+      - security_contact     # address or link. no default. (OSPS-VM-02.01)
+      - codeowners
+      - description_and_topics
+    requires:
+      - CONTRIBUTING.md      # OSPS-GV-03.01 / GV-03.02
+      - CODE_OF_CONDUCT.md
+      - SECURITY.md          # with response timeframe — OSPS-VM-01.01
+      - .github/ISSUE_TEMPLATE/
+      - .github/PULL_REQUEST_TEMPLATE.md
+      - CODEOWNERS
+      - scorecard-workflow
+
+  internal:
+    default_tier: 1
+    ask:
+      - owning_team          # replaces "maintainers" for an internal repo
+      - runbook_url
+      - data_classification  # none / internal / confidential / regulated
+      - security_contact     # internal channel, not a public address
+      - codeowners
+    requires:
+      - CODEOWNERS
+      - runbook-link-in-readme
+      - owning-team-in-readme
+    # Controls that a private repo cannot satisfy by construction. The agent
+    # marks these n/a WITH the reason, never silently drops them.
+    internal_substitutes:
+      OSPS-QA-01.01: "repo readable by all engineers in the org, not publicly"
+      OSPS-LE-02.01: "internal proprietary license header; OSI licensing n/a"
+      OSPS-LE-02.02: "internal proprietary license header; OSI licensing n/a"
+      OSPS-GV-02.01: "internal discussion channel documented in README"
+      OSPS-VM-04.01: "vulnerabilities tracked internally, not published"
+    not_required:
+      - CODE_OF_CONDUCT.md   # org-level, not per-repo
+      - CHANGELOG.md         # release concern; required only for libraries below
+
+house:
+  # Merge and review policy. This is taste, not standard. Edit freely.
+  ruleset:
+    enforcement: evaluate    # always start here; flip to active deliberately
+    required_pull_request: true
+    required_approving_reviews: 1
+    dismiss_stale_reviews: true
+    require_conversation_resolution: true
+    require_linear_history: true
+    require_signed_commits: false
+    block_force_push: true
+    block_deletion: true
+    required_status_checks: []   # filled from the loaded stack files
+    bypass_actors: []            # empty = no admin bypass
+
+  repo:
+    delete_branch_on_merge: true
+    allow_squash_merge: true
+    allow_merge_commit: false
+    allow_rebase_merge: false
+    enable_wiki: false
+    enable_issues: true
+
+  universal_files:
+    - README.md
+    - LICENSE
+    - .gitignore
+    - .editorconfig
+
+  # CHANGELOG is a release concern, not a universal one.
+  changelog_required_when:
+    - published_library
+    - versioned_release_artifact
+
+  secret_scan:
+    tool: gitleaks
+    fallback: "git log -S on: password, secret, token, BEGIN PRIVATE KEY"
+    on_missing: not_run       # never pass
+
+readme_must_answer:
+  - what this is, in two sentences
+  - how to install and run it, start to finish
+  - how to run the tests
+  - who owns it (internal) or how to contribute (public)

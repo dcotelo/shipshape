@@ -1,0 +1,13 @@
+# Stack rules: Bash / shell
+detect: ["*.sh", "**/*.sh"]
+
+rules:
+  - id: strict-mode
+    check: "every script starts with set -euo pipefail"
+  - id: shellcheck
+    check: "shellcheck runs in CI over all scripts"
+    tool: shellcheck
+  - id: no-curl-pipe-sh
+    check: "no piping of remote content directly into a shell"
+
+required_status_checks: ["shellcheck"]

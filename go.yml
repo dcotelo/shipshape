@@ -1,0 +1,22 @@
+# Stack rules: Go
+detect: ["go.mod"]
+
+files:
+  - .golangci.yml
+
+rules:
+  - id: go-version-pinned
+    check: "go.mod declares an explicit go directive"
+  - id: go-vet
+    check: "go vet ./... runs in CI"
+  - id: go-test-race
+    check: "go test -race ./... runs in CI"
+  - id: golangci-lint
+    check: "golangci-lint run in CI and fails the build"
+    tool: golangci-lint
+  - id: govulncheck
+    check: "govulncheck ./... runs in CI"
+    tool: govulncheck
+    baseline: [OSPS-VM-05.03]
+
+required_status_checks: ["build", "test", "lint", "vuln"]

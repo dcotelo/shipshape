@@ -1,0 +1,22 @@
+# Stack rules: Docker
+detect: ["Dockerfile", "**/Dockerfile"]
+
+files:
+  - .dockerignore
+
+rules:
+  - id: non-root-user
+    check: "Dockerfile declares a non-root USER before CMD/ENTRYPOINT"
+  - id: base-image-digest
+    check: "FROM pins a sha256 digest, not a floating tag"
+  - id: multi-stage
+    check: "build tooling is not present in the final stage"
+  - id: image-scan
+    check: "trivy image scan runs in CI with a documented threshold"
+    tool: trivy
+    baseline: [OSPS-VM-05.01]
+  - id: no-secrets-in-layers
+    check: "no ARG/ENV carrying credentials; no COPY of credential files"
+    baseline: [OSPS-BR-07.01]
+
+required_status_checks: ["image-build", "image-scan"]

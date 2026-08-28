@@ -1,0 +1,26 @@
+# Stack rules: Terraform
+detect: ["*.tf"]
+
+rules:
+  - id: remote-state-locking
+    check: "backend configured with remote state and locking"
+  - id: fmt-check
+    check: "terraform fmt -check runs in CI"
+  - id: validate
+    check: "terraform validate runs in CI"
+  - id: tflint
+    check: "tflint runs in CI"
+    tool: tflint
+  - id: static-security-scan
+    check: "checkov or tfsec runs in CI with a documented threshold"
+    tool: checkov
+    baseline: [OSPS-VM-06.01, OSPS-VM-06.02]
+  - id: provider-versions-pinned
+    check: "required_providers uses ~> constraints"
+  - id: lockfile-committed
+    check: ".terraform.lock.hcl is in version control"
+  - id: no-plaintext-secrets
+    check: "no credentials or secrets in *.tfvars or *.tf"
+    baseline: [OSPS-BR-07.01]
+
+required_status_checks: ["fmt", "validate", "lint", "scan"]
