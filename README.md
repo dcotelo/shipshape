@@ -50,6 +50,26 @@ The agent never invents a license, security contact, or owner; never makes a rep
 
 ## Install and run
 
+**As a Claude Code plugin (recommended):**
+
+```
+/plugin marketplace add dcotelo/shipshape
+/plugin install shipshape@shipshape
+```
+
+Then in any repository: `/shipshape audit` (or `/shipshape scaffold`). The repo serves as its own single-plugin marketplace; the whole tree is installed, so the skill launcher and the standard files travel together and the standard stays single-source (the skill contains no policy). Update with `/plugin marketplace update shipshape`.
+
+**As a symlinked skill (development):**
+
+```sh
+git clone https://github.com/dcotelo/shipshape.git ~/dev/shipshape
+ln -s ~/dev/shipshape/skills/shipshape ~/.claude/skills/shipshape
+```
+
+`git pull` in the clone keeps the skill current.
+
+**Manually:**
+
 1. Clone this repository, or vendor `AGENTS.md`, `standard.yml`, and `stacks/` into the repository you want audited.
 2. Ensure the agent's environment has:
    - `git` and an authenticated `gh` CLI (repo settings are checked and applied via the GitHub API),

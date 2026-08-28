@@ -19,6 +19,8 @@ jobs:
           python3 -m yamllint --strict .
       - name: check AGENTS.md path references
         run: ./.github/scripts/check-refs.sh
+      - name: validate plugin manifests
+        run: jq empty .claude-plugin/plugin.json .claude-plugin/marketplace.json
 
   shellcheck:
     runs-on: ubuntu-latest
