@@ -1,0 +1,10 @@
+# OS
+.DS_Store
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Audit reports must never land in the tree (AGENTS.md rule 8)
+*-audit.md
