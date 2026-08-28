@@ -12,6 +12,7 @@ jobs:
   analysis:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       security-events: write # upload SARIF to code scanning
       id-token: write        # publish results to OpenSSF
     steps:
