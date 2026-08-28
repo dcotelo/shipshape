@@ -72,6 +72,11 @@ house:
     block_deletion: true
     required_status_checks: []   # filled from the loaded stack files
     bypass_actors: []            # empty = no admin bypass
+    # Solo-maintainer escape hatch: required_approving_reviews blocks a repo's
+    # only human from merging their own work. true adds the repository-admin
+    # role to bypass_actors. GitHub logs every bypass, so it stays auditable.
+    # Weakens OSPS-QA-07.01 (level 3) — fine at tier 1/2, surface it at tier 3.
+    solo_admin_bypass: false
 
   repo:
     delete_branch_on_merge: true
@@ -96,6 +101,36 @@ house:
     tool: gitleaks
     fallback: "git log -S on: password, secret, token, BEGIN PRIVATE KEY"
     on_missing: not_run       # never pass
+
+  # Recommended local git client configuration. Contributor-side and therefore
+  # not enforceable by the repo: the check is that CONTRIBUTING documents it,
+  # never that a contributor's machine has it. Complements the SCM/pipeline
+  # controls from the OWASP CI/CD and Software Supply Chain cheat sheets and
+  # the OSPS Baseline, which stop at the platform layer.
+  git_config_recommended:
+    doc: CONTRIBUTING.md
+    settings:
+      - key: transfer.fsckObjects
+        value: "true"
+        why: "reject malformed/malicious objects on transfer (also fetch/receive.fsckObjects)"
+      - key: user.useConfigOnly
+        value: "true"
+        why: "fail when identity is unset instead of guessing — no wrong-email commits"
+      - key: protocol.file.allow
+        value: "user"
+        why: "limit file:// submodule tricks (CVE-2022-39253 class)"
+      - key: protocol.ext.allow
+        value: "never"
+        why: "block ext:: transport, a command-execution vector"
+      - key: commit.gpgsign
+        value: "true"
+        why: "cryptographic commit provenance (SSH signing via gpg.format=ssh is fine)"
+      - key: format.signOff
+        value: "true"
+        why: "DCO trailer on every commit automatically (OSPS-LE-01.01)"
+      - key: pull.ff
+        value: "only"
+        why: "no surprise merge commits; pairs with require_linear_history"
 
 readme_must_answer:
   - what this is, in two sentences

@@ -10,6 +10,8 @@
 
 **shipshape** is an agent-executable repository standard: point a coding agent at `AGENTS.md` and it **audits** an existing repository against the [OpenSSF OSPS Baseline](https://baseline.openssf.org/) plus your house policy, or **scaffolds** a new repository to the same standard. All policy lives in YAML — the prompt contains none.
 
+The security control set is the OSPS Baseline; the house rules align with the [OWASP CI/CD Security](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html), [GitHub Actions Security](https://cheatsheetseries.owasp.org/cheatsheets/GitHub_Actions_Security_Cheat_Sheet.html), and [Software Supply Chain Security](https://cheatsheetseries.owasp.org/cheatsheets/Software_Supply_Chain_Security_Cheat_Sheet.html) cheat sheets (SHA-pinned actions, least-privilege workflow tokens, SCM hardening), and the standard adds contributor-side [git client hardening](CONTRIBUTING.md#recommended-local-git-configuration) that platform controls cannot reach.
+
 ---
 
 ## How it works
