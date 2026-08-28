@@ -20,3 +20,14 @@ rules:
     baseline: [OSPS-BR-07.01]
 
 required_status_checks: ["image-build", "image-scan"]
+
+scaffold:
+  ask: [base_image]            # image + tag; digest pinned at scaffold time — rule-1 value
+  files:
+    - path: Dockerfile
+      content: >-
+        multi-stage; FROM <base_image>@sha256:<digest resolved at scaffold
+        time>; non-root USER before ENTRYPOINT; no ARG/ENV credentials
+    - path: .dockerignore
+      content: ".git, secrets patterns (.env, *.pem, *.key), local build artifacts"
+  prove: "docker build ."

@@ -24,3 +24,14 @@ rules:
     baseline: [OSPS-BR-07.01]
 
 required_status_checks: ["fmt", "validate", "lint", "scan"]
+
+scaffold:
+  ask: [backend_type]          # s3+locking / terraform cloud / other — rule-1 value
+  files:
+    - path: versions.tf
+      content: "required_version pinned ~> to a released minor; required_providers with ~> constraints"
+    - path: backend.tf
+      content: "backend block for <backend_type> with remote state and locking; values asked, never invented"
+    - path: main.tf
+      content: "empty — resources are the user's job, not the scaffold's"
+  prove: "terraform fmt -check && terraform validate (init -backend=false when backend creds are absent)"

@@ -55,8 +55,10 @@ From `standard.yml`, determine:
 - **Tier** — Baseline level 1, 2, or 3. Default per profile is in `standard.yml`.
   Level 1 is the floor. Do not silently apply a higher tier because it seems better;
   higher tiers demand things like signed releases and SBOMs that need real decisions.
-- **Stacks** — detect from the tree, confirm with the user, load the matching
-  `stacks/*.yml`. An unrecognized stack is reported, not guessed at.
+- **Stacks** — in AUDIT, detect from the tree, confirm with the user, load the
+  matching `stacks/*.yml`. An unrecognized stack is reported, not guessed at.
+  In SCAFFOLD there is no tree to detect from: the stack list comes from the
+  interview — ask it with the profile's open questions, never assume one.
 
 Then ask the profile's open questions from `standard.yml` in a single batch. In
 AUDIT mode, read the current answers out of the repo first and present them for
@@ -125,6 +127,12 @@ can state why it cannot. Writing the files is not evidence that the checks pass.
 
 Do not scaffold code nobody asked for. No sample handlers, no placeholder API. Only
 what the build needs to prove it compiles.
+
+Per stack, that minimum is the `scaffold:` block in its `stacks/*.yml`: generate
+its `files` to the stated content requirements, ask its `ask` values (they are
+rule-1 values — never invented), and run its `prove` command as part of the
+Phase 2 re-run. A selected stack whose file has no `scaffold:` block is reported
+as not scaffoldable — do not improvise a layout for it.
 
 ---
 

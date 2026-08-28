@@ -17,3 +17,8 @@ rules:
     check: "no piping of remote content directly into a shell"
 
 required_status_checks: ["shellcheck"]
+
+# No scaffold block: shell scripts exist to do something specific, and rule
+# "no code nobody asked for" means there is nothing generic to generate. The
+# stack's rules apply to scripts other stacks or the user add.
+scaffold: none

@@ -52,3 +52,14 @@ rules:
     baseline: [OSPS-BR-01.03]
 
 required_status_checks: ["atlantis/plan"]
+
+scaffold:
+  ask: [terraform_dirs]        # project directories Atlantis manages
+  files:
+    - path: atlantis.yaml
+      content: >-
+        version 3; one project per <terraform_dirs> entry with pinned
+        terraform_version and apply_requirements per the apply-requirements
+        rule (honoring solo_admin_bypass); autoplan when_modified covering
+        *.tf, *.tfvars, .terraform.lock.hcl; no run steps
+  prove: "yamllint atlantis.yaml (atlantis server-side validation is not runnable locally)"
