@@ -66,17 +66,26 @@ profiles:
 # the plan name alone; the API answer wins.
 plan_gates:
   - feature: rulesets on private repos
+    probe: "GET repos/{owner}/{repo}/rulesets"
     gated: "free plan (private): 403 'Upgrade to GitHub Pro or make this repository public'"
     fallback: >-
       make repo public (user's action, never the agent's) or accept
       documented fails on AC-03.01/03.02, QA-03.01
   - feature: ruleset evaluate enforcement
+    # No cheap read exists: only the POST reveals this gate. Detected at
+    # apply time; the ask happens then.
+    probe: apply-time-only
     gated: "Enterprise only: 422 'Enforcement evaluate option is not supported on this plan'"
     fallback: "apply as active directly — ask first; on a repo with work in flight prefer starting with fewer rules"
   - feature: secret scanning + push protection on private repos
+    # One entry: same endpoint, same fallback.
+    probe: "GET repos/{owner}/{repo} → .security_and_analysis (fields absent or PATCH 422 = gated)"
     gated: "public repos free; private needs GitHub Advanced Security"
     fallback: "gitleaks in CI and as documented pre-commit hook; record BR-07.01 accordingly"
   - feature: code scanning (CodeQL) on private repos
+    probe: >-
+      GET repos/{owner}/{repo}/code-scanning/alerts (403 'Advanced Security'
+      = gated; 404 'no analysis found' = available, unused)
     gated: "public repos free; private needs GitHub Advanced Security"
     fallback: "third-party SAST in CI per stack files, or accept not_run"
 
