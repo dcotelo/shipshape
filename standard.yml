@@ -58,6 +58,28 @@ profiles:
       - CODE_OF_CONDUCT.md   # org-level, not per-repo
       - CHANGELOG.md         # release concern; required only for libraries below
 
+# GitHub features the standard depends on that are gated by plan or product
+# tier. The agent probes these in Phase 1 (see AGENTS.md) instead of failing
+# mid-run: a gate that the probe or an apply call reveals (402/403/422 with an
+# upgrade message) is surfaced with its fallback as a question — the same
+# pattern as the solo-repo review tradeoff. Never assume an entitlement from
+# the plan name alone; the API answer wins.
+plan_gates:
+  - feature: rulesets on private repos
+    gated: "free plan (private): 403 'Upgrade to GitHub Pro or make this repository public'"
+    fallback: >-
+      make repo public (user's action, never the agent's) or accept
+      documented fails on AC-03.01/03.02, QA-03.01
+  - feature: ruleset evaluate enforcement
+    gated: "Enterprise only: 422 'Enforcement evaluate option is not supported on this plan'"
+    fallback: "apply as active directly — ask first; on a repo with work in flight prefer starting with fewer rules"
+  - feature: secret scanning + push protection on private repos
+    gated: "public repos free; private needs GitHub Advanced Security"
+    fallback: "gitleaks in CI and as documented pre-commit hook; record BR-07.01 accordingly"
+  - feature: code scanning (CodeQL) on private repos
+    gated: "public repos free; private needs GitHub Advanced Security"
+    fallback: "third-party SAST in CI per stack files, or accept not_run"
+
 house:
   # Merge and review policy. This is taste, not standard. Edit freely.
   ruleset:
