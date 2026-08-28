@@ -1,0 +1,76 @@
+# CodeRabbit configuration — tuned for a policy/standards repo:
+# YAML config + Markdown prose + shell scripts, no application code.
+# Schema: https://docs.coderabbit.ai/reference/configuration
+language: en-US
+tone_instructions: >-
+  Terse and technical. Flag real defects and drift; skip style praise and
+  restatements of the diff.
+
+reviews:
+  profile: chill
+  path_filters:
+    - "!LICENSE"
+  path_instructions:
+    - path: "AGENTS.md"
+      instructions: >-
+        This file defines agent behavior and must contain NO policy: no file
+        lists, review counts, tool names as requirements, or thresholds —
+        those belong in standard.yml or stacks/*.yml. Flag any policy leak.
+        Flag references to paths that do not exist in the tree.
+    - path: "standard.yml"
+      instructions: >-
+        All policy lives here. OSPS Baseline control IDs must match the
+        OSPS-XX-NN.NN format. Flag placeholder values presented as real
+        (e.g. <GITHUB_OWNER>) anywhere new, and any rule whose failure mode
+        could map a missing tool to pass — the standard requires not_run.
+    - path: "stacks/*.yml"
+      instructions: >-
+        Each stack file needs detect patterns, rules with id + check, and
+        required_status_checks. Rules must be checkable from the repo tree
+        or explicitly marked as documentation checks; flag rules that would
+        require inferring a pass from absence of evidence. Baseline
+        references use control IDs verbatim.
+    - path: ".github/workflows/*.yml"
+      instructions: >-
+        Third-party actions must be pinned to a full commit SHA with the
+        version as a trailing comment — flag any tag or branch ref. Flag
+        missing or over-broad permissions blocks (default must be
+        contents: read or stricter) and any interpolation of PR-controlled
+        metadata into run: steps.
+    - path: ".github/scripts/*.sh"
+      instructions: >-
+        Scripts must start with set -euo pipefail. No piping remote content
+        into a shell. Portable bash only.
+    - path: "skills/**"
+      instructions: >-
+        SKILL.md is a launcher and must contain no policy — it points at
+        AGENTS.md, standard.yml, and stacks/ via relative paths. Flag any
+        duplicated rule text (drift risk) and any broken relative reference.
+    - path: "**/*.md"
+      instructions: >-
+        Check that documented commands, paths, and file names still match
+        the tree. Drift between docs and reality is this repo's primary
+        defect class.
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+
+tools:
+  yamllint:
+    enabled: true
+  shellcheck:
+    enabled: true
+  markdownlint:
+    enabled: true
+  gitleaks:
+    enabled: true
+  actionlint:
+    enabled: true
+
+knowledge_base:
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "AGENTS.md"
+      - "CONTRIBUTING.md"
