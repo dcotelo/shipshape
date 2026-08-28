@@ -19,6 +19,12 @@ rules:
       repo-side apply_requirements, or documented as server-side repos.yaml
       with allowed_overrides
     baseline: [OSPS-QA-03.01]
+    # Solo-maintainer: `approved` blocks the repo's only human from applying
+    # their own plans, same tradeoff as required_approving_reviews. When
+    # house.ruleset.solo_admin_bypass is true in standard.yml, mergeable +
+    # undiverged without `approved` passes this rule. Never drop `approved`
+    # on your own judgment — the flag is the user's decision.
+    solo_exempts: [approved]
   - id: terraform-version-pinned
     check: "every project pins terraform_version"
   - id: autoplan-covers-inputs
