@@ -50,14 +50,23 @@ The agent never invents a license, security contact, or owner; never makes a rep
 
 ## Install and run
 
-**As a Claude Code skill (recommended):**
+**As a Claude Code plugin (recommended):**
+
+```
+/plugin marketplace add dcotelo/shipshape
+/plugin install shipshape@shipshape
+```
+
+Then in any repository: `/shipshape audit` (or `/shipshape scaffold`). The repo serves as its own single-plugin marketplace; the whole tree is installed, so the skill launcher and the standard files travel together and the standard stays single-source (the skill contains no policy). Update with `/plugin marketplace update shipshape`.
+
+**As a symlinked skill (development):**
 
 ```sh
 git clone https://github.com/dcotelo/shipshape.git ~/dev/shipshape
 ln -s ~/dev/shipshape/skills/shipshape ~/.claude/skills/shipshape
 ```
 
-Then in any repository: `/shipshape audit` (or `/shipshape scaffold`). Updating = `git pull` in the clone — the symlink keeps the skill current, and the standard stays single-source (the skill is a launcher; it contains no policy).
+`git pull` in the clone keeps the skill current.
 
 **Manually:**
 

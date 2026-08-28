@@ -1,0 +1,14 @@
+{
+  "name": "shipshape",
+  "owner": {
+    "name": "Diego Cotelo",
+    "url": "https://dcotelo.dev"
+  },
+  "plugins": [
+    {
+      "name": "shipshape",
+      "source": "./",
+      "description": "Agent-executable repository standard — audits and scaffolds repos against the OpenSSF OSPS Baseline"
+    }
+  ]
+}
