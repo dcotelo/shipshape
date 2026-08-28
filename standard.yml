@@ -82,7 +82,7 @@ plan_gates:
     # callers without admin access, so absence is indeterminate, not a gate.
     probe: >-
       GET repos/{owner}/{repo} → .security_and_analysis. Gate only on an
-      enable attempt (PATCH) answering 403/422 whose message names Advanced
+      enable attempt (PATCH) answering 402/403/422 whose message names Advanced
       Security or an upgrade; block absent = indeterminate → record not_run
     gated: "public repos free; private needs GitHub Advanced Security"
     fallback: "gitleaks in CI and as documented pre-commit hook; record BR-07.01 accordingly"
