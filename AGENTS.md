@@ -153,7 +153,10 @@ on — never retry with a broader scope.
 **Never touch:** secrets, deploy keys, webhooks, collaborator access, org settings.
 
 Note for solo repos: requiring a non-author approval (Baseline level 3) will block
-the owner from merging their own work. Surface the tradeoff, let them decide.
+the owner from merging their own work. Surface the tradeoff, let them decide. If
+they opt in, set `solo_admin_bypass: true` in `standard.yml` — it maps to a
+repository-admin entry in the ruleset's `bypass_actors`. Never enable it on your
+own judgment, and at tier 3 state explicitly that it weakens OSPS-QA-07.01.
 
 ---
 
