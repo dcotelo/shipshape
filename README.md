@@ -24,6 +24,30 @@ The agent resolves profile and tier, fetches the pinned Baseline checklist (neve
 
 ---
 
+## What a run looks like
+
+```mermaid
+flowchart LR
+    A[Detect mode<br/>AUDIT / SCAFFOLD] --> B[Resolve profile,<br/>tier & stacks]
+    B --> C[Fetch pinned<br/>Baseline checklist]
+    C --> D[Evaluate every control<br/>with evidence]
+    D --> E[Report to<br/>../repo-audit.md]
+    E --> F{You pick<br/>the fixes}
+    F --> G[Fix in commits<br/>grouped by concern]
+    G --> H[Apply GitHub config<br/>rulesets in evaluate mode]
+```
+
+1. **Detect mode** — repo with commits → AUDIT; empty → SCAFFOLD. Announced, never assumed.
+2. **Resolve profile, tier, stacks** — profile is asked every run, never inferred from visibility; stacks are detected from the tree and confirmed.
+3. **Fetch the pinned Baseline** — control IDs come from the versioned checklist, verbatim, never from model memory.
+4. **Evaluate** — every control records `pass | fail | n/a | not_run` with the file, setting, or command output that decided it. A missing scanner is `not_run`, never `pass`.
+5. **Report, then stop** — in AUDIT mode nothing changes until you choose what to fix.
+6. **Fix and configure** — separate commits per concern; GitHub rulesets start in `evaluate` enforcement so nothing breaks mid-flight.
+
+The agent never invents a license, security contact, or owner; never makes a repo public; never force-pushes or rewrites history. Those are your decisions — it asks.
+
+---
+
 ## Install and run
 
 1. Clone this repository, or vendor `AGENTS.md`, `standard.yml`, and `stacks/` into the repository you want audited.
