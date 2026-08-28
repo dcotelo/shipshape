@@ -76,7 +76,7 @@ house:
     # only human from merging their own work. true adds the repository-admin
     # role to bypass_actors. GitHub logs every bypass, so it stays auditable.
     # Weakens OSPS-QA-07.01 (level 3) — fine at tier 1/2, surface it at tier 3.
-    solo_admin_bypass: false
+    solo_admin_bypass: true   # opted in 2026-08-28: solo repo, self-merge needed
 
   repo:
     delete_branch_on_merge: true
