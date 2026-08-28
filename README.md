@@ -20,7 +20,7 @@ The security control set is the OSPS Baseline; the house rules align with the [O
 |------|---------|
 | `AGENTS.md` | The agent prompt: modes, hard rules, phases. Contains **no policy**. |
 | `standard.yml` | All policy: pinned Baseline version, profiles (`public-oss` / `internal`), tiers, house merge/review rules, required files. |
-| `stacks/*.yml` | Per-stack rules (Go, TypeScript, Terraform, Docker, shell): detection patterns, required checks, CI status checks. |
+| `stacks/*.yml` | Per-stack rules (Go, TypeScript, Terraform, Atlantis, Docker, shell): detection patterns, required checks, CI status checks. |
 
 The agent resolves profile and tier, fetches the pinned Baseline checklist (never from memory), evaluates every applicable control with evidence, and writes the audit report to `../<repo>-audit.md` — never into the repo tree.
 

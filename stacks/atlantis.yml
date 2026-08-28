@@ -1,0 +1,54 @@
+# Stack rules: Atlantis (Terraform PR automation)
+# Loads alongside stacks/terraform.yml — this file adds only Atlantis-specific
+# rules; fmt/validate/tflint/scan stay in the terraform stack.
+#
+# Scope note: Atlantis security is split between the repo and the server.
+# Rules here check only what is visible in the repo tree. Server-side flags
+# (--repo-allowlist, webhook secrets, --allow-fork-prs, TLS, web auth) cannot
+# be read from the repo: those are documentation checks — the runbook or infra
+# repo must state them — and are recorded not_run when nothing documents them.
+# Source: https://www.runatlantis.io/docs/security.html
+detect: ["atlantis.yaml", "atlantis.yml"]
+
+rules:
+  - id: repo-config-version
+    check: "atlantis.yaml declares version 3"
+  - id: apply-requirements
+    check: >-
+      every project requires approved + mergeable (+ undiverged) before apply —
+      repo-side apply_requirements, or documented as server-side repos.yaml
+      with allowed_overrides
+    baseline: [OSPS-QA-03.01]
+    # Solo-maintainer: `approved` blocks the repo's only human from applying
+    # their own plans, same tradeoff as required_approving_reviews. When
+    # house.ruleset.solo_admin_bypass is true in standard.yml, mergeable +
+    # undiverged without `approved` passes this rule. Never drop `approved`
+    # on your own judgment — the flag is the user's decision.
+    solo_exempts: [approved]
+  - id: terraform-version-pinned
+    check: "every project pins terraform_version"
+  - id: autoplan-covers-inputs
+    check: >-
+      autoplan when_modified includes *.tf, *.tfvars and .terraform.lock.hcl
+      so no change class silently skips plan
+  - id: no-run-steps-without-review
+    check: >-
+      custom workflows with run: steps are flagged for human review — a run
+      step in atlantis.yaml executes arbitrary commands on the Atlantis server
+      from a PR
+    baseline: [OSPS-BR-01.01]
+  - id: no-secrets-in-config
+    check: "no credentials in atlantis.yaml (env vars, extra_args, run steps)"
+    baseline: [OSPS-BR-07.01]
+  - id: fork-prs-documented-off
+    check: >-
+      server config documented with --allow-fork-prs disabled (or the risk
+      explicitly accepted) — not readable from the repo; not_run if undocumented
+    baseline: [OSPS-BR-01.03]
+  - id: webhook-secret-documented
+    check: >-
+      server config documented with a VCS webhook secret set — not readable
+      from the repo; not_run if undocumented
+    baseline: [OSPS-BR-01.03]
+
+required_status_checks: ["atlantis/plan"]
