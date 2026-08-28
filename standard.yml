@@ -78,14 +78,22 @@ plan_gates:
     gated: "Enterprise only: 422 'Enforcement evaluate option is not supported on this plan'"
     fallback: "apply as active directly — ask first; on a repo with work in flight prefer starting with fewer rules"
   - feature: secret scanning + push protection on private repos
-    # One entry: same endpoint, same fallback.
-    probe: "GET repos/{owner}/{repo} → .security_and_analysis (fields absent or PATCH 422 = gated)"
+    # One entry: same endpoint, same fallback. The block is omitted for
+    # callers without admin access, so absence is indeterminate, not a gate.
+    probe: >-
+      GET repos/{owner}/{repo} → .security_and_analysis. Gate only on an
+      enable attempt (PATCH) answering 403/422 whose message names Advanced
+      Security or an upgrade; block absent = indeterminate → record not_run
     gated: "public repos free; private needs GitHub Advanced Security"
     fallback: "gitleaks in CI and as documented pre-commit hook; record BR-07.01 accordingly"
   - feature: code scanning (CodeQL) on private repos
+    # 404 here is deliberately ambiguous (GitHub hides private resources):
+    # missing analysis, no access, or feature unavailable. Never read it as
+    # available.
     probe: >-
-      GET repos/{owner}/{repo}/code-scanning/alerts (403 'Advanced Security'
-      = gated; 404 'no analysis found' = available, unused)
+      GET repos/{owner}/{repo}/code-scanning/alerts. 200 = available;
+      403 naming Advanced Security = gated; 404 = indeterminate → record
+      not_run and ask
     gated: "public repos free; private needs GitHub Advanced Security"
     fallback: "third-party SAST in CI per stack files, or accept not_run"
 
