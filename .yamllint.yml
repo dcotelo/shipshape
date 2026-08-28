@@ -1,0 +1,11 @@
+extends: default
+
+rules:
+  line-length:
+    max: 120
+  document-start: disable
+  truthy:
+    check-keys: false  # GitHub workflow files use the bare `on:` key
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: disable
