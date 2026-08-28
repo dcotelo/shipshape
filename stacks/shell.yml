@@ -3,7 +3,13 @@ detect: ["*.sh", "**/*.sh"]
 
 rules:
   - id: strict-mode
-    check: "every script starts with set -euo pipefail"
+    check: >-
+      every executed script sets strict mode. The default is set -euo pipefail;
+      a weaker mode (e.g. set -u for code targeting bash 3.2 semantics) passes
+      only when the repo records it as a deliberate convention — in CONTRIBUTING
+      or an equivalent contributor doc — with the reason. An undocumented weaker
+      mode, or a script with no set line at all, fails. Sourced library files
+      inherit the caller's mode and are exempt.
   - id: shellcheck
     check: "shellcheck runs in CI over all scripts"
     tool: shellcheck
