@@ -28,6 +28,8 @@ required_status_checks: ["fmt", "validate", "lint", "scan"]
 scaffold:
   # backend_config: the backend's own values (bucket/key/region/lock table,
   # or org/workspace) — structured, asked per backend_type, never invented.
+  # Configuration only, never credentials: auth comes from environment
+  # variables or workload identity (no-plaintext-secrets applies).
   ask: [backend_type, backend_config]
   files:
     - path: versions.tf
@@ -37,4 +39,5 @@ scaffold:
     - path: main.tf
       content: "empty — resources are the user's job, not the scaffold's"
   # -backend=false: validation must not need live backend credentials.
+  # init generates .terraform.lock.hcl — commit it (lockfile-committed rule).
   prove: "terraform init -backend=false && terraform fmt -check && terraform validate"

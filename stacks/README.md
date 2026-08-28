@@ -50,7 +50,7 @@ scaffold:                      # omit nothing silently: a stack that generates n
    serves the control.
 4. **Scaffold content is declarative.** Requirements the generated file must
    meet — never literal templates, and never example values that look real
-   (rule 6: nothing secret-shaped). Values expensive to get wrong (module
+   (AGENTS.md hard rule 6: nothing secret-shaped). Values expensive to get wrong (module
    paths, backends, image digests) go in `ask`, not defaults.
 5. **`prove` must run offline-ish.** Prefer commands that work without
    credentials (`terraform validate` after `init -backend=false`); name the

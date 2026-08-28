@@ -28,7 +28,8 @@ scaffold:
     - path: package.json
       content: >-
         name <package_name>; private: true unless <publishable>;
-        scripts for build/test/lint/typecheck
+        typescript as a pinned devDependency (so npx resolves the local
+        compiler, not a fetched one); scripts for build/test/lint/typecheck
     - path: tsconfig.json
       content: "strict: true; no implicit any; target/module pinned, not 'latest'"
     - path: .nvmrc
