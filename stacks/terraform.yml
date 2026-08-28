@@ -26,12 +26,15 @@ rules:
 required_status_checks: ["fmt", "validate", "lint", "scan"]
 
 scaffold:
-  ask: [backend_type]          # s3+locking / terraform cloud / other — rule-1 value
+  # backend_config: the backend's own values (bucket/key/region/lock table,
+  # or org/workspace) — structured, asked per backend_type, never invented.
+  ask: [backend_type, backend_config]
   files:
     - path: versions.tf
       content: "required_version pinned ~> to a released minor; required_providers with ~> constraints"
     - path: backend.tf
-      content: "backend block for <backend_type> with remote state and locking; values asked, never invented"
+      content: "backend block for <backend_type> filled from <backend_config>, remote state with locking"
     - path: main.tf
       content: "empty — resources are the user's job, not the scaffold's"
-  prove: "terraform fmt -check && terraform validate (init -backend=false when backend creds are absent)"
+  # -backend=false: validation must not need live backend credentials.
+  prove: "terraform init -backend=false && terraform fmt -check && terraform validate"

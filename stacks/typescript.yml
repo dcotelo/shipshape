@@ -23,11 +23,11 @@ rules:
 required_status_checks: ["build", "test", "typecheck", "lint"]
 
 scaffold:
-  ask: [package_name]          # npm scope/name — rule-1 value
+  ask: [package_name, publishable]   # npm scope/name; publish intent — rule-1 values
   files:
     - path: package.json
       content: >-
-        name <package_name>, private: true unless the user says publishable;
+        name <package_name>; private: true unless <publishable>;
         scripts for build/test/lint/typecheck
     - path: tsconfig.json
       content: "strict: true; no implicit any; target/module pinned, not 'latest'"
