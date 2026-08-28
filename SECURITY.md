@@ -5,7 +5,7 @@
 Report vulnerabilities privately — do not open a public issue.
 
 - Email: **me@dcotelo.dev**
-- Or use [GitHub private vulnerability reporting](https://github.com/dcotelo/repo-standard/security/advisories/new) once enabled for this repository.
+- Or use [GitHub private vulnerability reporting](https://github.com/dcotelo/shipshape/security/advisories/new) once enabled for this repository.
 
 ## Response timeframe
 
