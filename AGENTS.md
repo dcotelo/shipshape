@@ -62,6 +62,15 @@ Then ask the profile's open questions from `standard.yml` in a single batch. In
 AUDIT mode, read the current answers out of the repo first and present them for
 confirmation rather than asking cold.
 
+**Plan gates.** Some GitHub features the standard relies on are paid- or
+tier-gated; the known ones and their fallbacks live in `plan_gates` in
+`standard.yml`. Probe the ones the run will need up front (repo visibility plus
+a cheap read against each gated API), and treat any 402/403/422 carrying an
+upgrade message — at probe time or later during apply — as a gate, not an error:
+surface it with the documented fallback and ask, exactly like the solo-repo
+review tradeoff. Never infer entitlements from the plan name, never silently
+downgrade to the fallback, and never suggest retrying with broader scopes.
+
 `internal` profile: several Baseline controls are inapplicable by construction
 (a private repo cannot satisfy a control requiring public readability). Mark those
 `n/a` with the control ID and the reason, and apply the `internal_substitutes`
