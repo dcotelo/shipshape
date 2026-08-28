@@ -6,7 +6,7 @@ Thanks for your interest in improving this repository standard.
 
 - `AGENTS.md` — agent behavior only. **No policy.** If your change adds an opinion (a required file, a review count, a tool), it belongs in `standard.yml` or a stack file, not here.
 - `standard.yml` — policy: Baseline pin, profiles, tiers, house rules.
-- `stacks/*.yml` — per-stack rules. To add a stack, copy the shape of an existing file: `detect` patterns, `rules` with `id`/`check` (and `tool`/`baseline` where applicable), and `required_status_checks`.
+- `stacks/*.yml` — per-stack rules. To add or extend a stack, follow the schema and design rules in [stacks/README.md](stacks/README.md).
 
 ## Process
 

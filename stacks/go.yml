@@ -20,3 +20,14 @@ rules:
     baseline: [OSPS-VM-05.03]
 
 required_status_checks: ["build", "test", "lint", "vuln"]
+
+scaffold:
+  ask: [module_path]           # e.g. github.com/org/repo — rule-1 value
+  files:
+    - path: go.mod
+      content: "module <module_path>; explicit go directive pinned to a released minor"
+    - path: main.go
+      content: "package main with an empty main() — just enough for go build ./... to succeed"
+    - path: .golangci.yml
+      content: "default linter set enabled; no disabled linters without a comment saying why"
+  prove: "go build ./... && go vet ./..."

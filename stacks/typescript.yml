@@ -21,3 +21,20 @@ rules:
     baseline: [OSPS-VM-05.01]
 
 required_status_checks: ["build", "test", "typecheck", "lint"]
+
+scaffold:
+  ask: [package_name, publishable]   # npm scope/name; publish intent — rule-1 values
+  files:
+    - path: package.json
+      content: >-
+        name <package_name>; private: true unless <publishable>;
+        typescript as a pinned devDependency (so npx resolves the local
+        compiler, not a fetched one); scripts for build/test/lint/typecheck
+    - path: tsconfig.json
+      content: "strict: true; no implicit any; target/module pinned, not 'latest'"
+    - path: .nvmrc
+      content: "one released LTS major, matching the version CI uses"
+    - path: src/index.ts
+      content: "empty export {} — just enough for tsc --noEmit to succeed"
+  prove: "npm install && npx tsc --noEmit"
+  # lockfile-committed rule: commit the lockfile npm install produces.
