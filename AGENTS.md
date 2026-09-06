@@ -115,6 +115,14 @@ Write the report to the path in rule 8. Structure:
    - Do CONTRIBUTING and the docs still describe how the code actually works?
      Name the drift.
    - Do the module boundaries the docs claim exist in the source?
+   - If the `agents` stack loaded: can an agent find the exact CI
+     commands from the README in one hop? Quote the gap.
+   - If agent manuals are duplicated (CLAUDE.md, GEMINI.md, a skill,
+     a plugin): is AGENTS.md the single source of truth, or do they
+     diverge? Name the files.
+   - If the same identifier set is copied across files or languages:
+     is drift checked in CI? Name the lists and the check, or the
+     absence.
 5. Ranked fix list — Baseline level 1 failures first, then stack rules, then judgment.
 
 Stop. Ask which items to fix. Fix in separate commits grouped by concern.
