@@ -61,6 +61,7 @@ extract_paths() {
     grep -v -E '^(https?://|mailto:|#)' |
     grep -v -F '*' |
     grep -E '^[A-Za-z0-9._-][A-Za-z0-9._/-]*(\.(md|yml|yaml|sh|json)|/)$' |
+    sed 's|^\./||' |
     sort -u
 }
 
@@ -68,16 +69,41 @@ extract_paths() {
 # tree. They are skipped, not resolved. Keep this list short and explained.
 generated_outputs="ruleset.json"
 
-# Does the candidate resolve from any of the given base directories?
-# A trailing "/" means a directory reference; anything else must be a file.
+# Every other check in this script resolves against the working directory, so
+# the repository root is the working directory here too.
+repo_root="$(pwd -P)"
+
+# Print the physical path of a target, or return 1 when its parent directory
+# does not exist. Uses cd/pwd rather than realpath(1), which macOS lacks.
+physical_path() {
+  local target="$1"
+  local dir leaf abs_dir
+  dir="$(dirname "$target")"
+  leaf="$(basename "$target")"
+  [ -d "$dir" ] || return 1
+  abs_dir="$(cd "$dir" && pwd -P)"
+  printf '%s/%s\n' "$abs_dir" "$leaf"
+}
+
+# Does the candidate resolve from any of the given base directories, landing
+# inside the repository? A trailing "/" means a directory reference; anything
+# else must be a file. The containment test matters because the extractor
+# accepts leading "../" (the skill launcher legitimately uses ../../AGENTS.md),
+# and without it a manual could be satisfied by a file outside the checkout
+# that CI would never have.
 resolves() {
   local candidate="$1"
   shift
-  local base
+  local base resolved
   for base in "$@"; do
+    resolved="$(physical_path "$base/$candidate")" || continue
+    case "$resolved" in
+      "$repo_root"/*) ;;
+      *) continue ;;
+    esac
     case "$candidate" in
-      */) [ -d "$base/$candidate" ] && return 0 ;;
-      *)  [ -f "$base/$candidate" ] && return 0 ;;
+      */) [ -d "$resolved" ] && return 0 ;;
+      *)  [ -f "$resolved" ] && return 0 ;;
     esac
   done
   return 1
