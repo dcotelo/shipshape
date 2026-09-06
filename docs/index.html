@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>shipshape — an agent-executable repository standard</title>
+<meta name="description" content="Point a coding agent at AGENTS.md and it audits or scaffolds a repository against the OpenSSF OSPS Baseline plus your house policy. All policy lives in YAML.">
+<link rel="canonical" href="https://dcotelo.github.io/shipshape/">
+<meta property="og:title" content="shipshape">
+<meta property="og:description" content="An agent-executable repository standard, with the OpenSSF OSPS Baseline inside.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dcotelo.github.io/shipshape/">
+<!--
+  This page is a landing page, not a second copy of the standard. The repository
+  is canonical: policy lives in standard.yml and stacks/*.yml, behavior in
+  AGENTS.md. Anything here that would need updating when policy changes belongs
+  on the other side of a link instead.
+-->
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #1a1b27;
+    --panel: #1f2135;
+    --line: #414868;
+    --ink: #c0caf5;
+    --muted: #9aa5ce;
+    --accent: #7aa2f7;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  .wrap { max-width: 52rem; margin: 0 auto; padding: 0 1.25rem 5rem; }
+  a { color: var(--accent); }
+  a:focus-visible, .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  header { padding: 5rem 0 3rem; border-bottom: 1px solid var(--line); }
+  h1 {
+    margin: 0;
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .tag { margin: 0.75rem 0 0; color: var(--accent); font-family: var(--mono); font-size: 0.95rem; }
+  .lede { margin: 1.75rem 0 0; font-size: 1.15rem; color: var(--ink); }
+  .lede strong { color: #fff; }
+  .actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .btn {
+    display: inline-block;
+    padding: 0.6rem 1.15rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .btn:hover { border-color: var(--accent); color: #fff; }
+  .btn--primary { background: var(--accent); border-color: var(--accent); color: #12131c; font-weight: 600; }
+  .btn--primary:hover { background: #93b5f9; color: #12131c; }
+  h2 {
+    margin: 3.5rem 0 0.35rem;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  h3 { margin: 0 0 0.35rem; font-size: 1rem; font-family: var(--mono); }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; }
+  .cards { display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: 1.25rem; }
+  .card { padding: 1.1rem 1.2rem; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+  pre {
+    margin: 1.25rem 0 0;
+    padding: 1.1rem 1.2rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  pre .c { color: var(--muted); }
+  ol, ul { padding-left: 1.25rem; margin: 1.25rem 0 0; }
+  li { margin-bottom: 0.55rem; }
+  li strong { color: #fff; }
+  .rules li { color: var(--muted); }
+  footer {
+    margin-top: 4.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>shipshape</h1>
+  <p class="tag">agent-executed &middot; OSPS Baseline inside &middot; policy as YAML</p>
+  <p class="lede">
+    Point a coding agent at <strong>AGENTS.md</strong> and it audits an existing repository
+    against the OpenSSF OSPS Baseline plus your house policy, or scaffolds a new one to the
+    same standard. The prompt carries no policy: every opinion lives in YAML you can read,
+    diff, and argue with.
+  </p>
+  <div class="actions">
+    <a class="btn btn--primary" href="https://github.com/dcotelo/shipshape">View on GitHub</a>
+    <a class="btn" href="https://github.com/dcotelo/shipshape/blob/main/AGENTS.md">Read AGENTS.md</a>
+    <a class="btn" href="https://baseline.openssf.org/">OSPS Baseline</a>
+  </div>
+</header>
+
+<h2>Three files</h2>
+<div class="cards">
+  <div class="card">
+    <h3><a href="https://github.com/dcotelo/shipshape/blob/main/AGENTS.md">AGENTS.md</a></h3>
+    <p>The agent prompt: modes, hard rules, phases. Contains no policy.</p>
+  </div>
+  <div class="card">
+    <h3><a href="https://github.com/dcotelo/shipshape/blob/main/standard.yml">standard.yml</a></h3>
+    <p>Pinned Baseline version, profiles, tiers, house merge and review rules, required files.</p>
+  </div>
+  <div class="card">
+    <h3><a href="https://github.com/dcotelo/shipshape/tree/main/stacks">stacks/*.yml</a></h3>
+    <p>Per-stack rules: what to check in an existing repo, what to generate in a new one.</p>
+  </div>
+</div>
+
+<h2>Install</h2>
+<pre><span class="c"># once, as a Claude Code plugin</span>
+/plugin marketplace add dcotelo/shipshape
+/plugin install shipshape@shipshape
+
+<span class="c"># then, in any repository</span>
+/shipshape audit
+/shipshape scaffold</pre>
+
+<h2>What a run does</h2>
+<ol>
+  <li><strong>Detects the mode.</strong> A repository with commits is audited; an empty one is scaffolded. Announced, never assumed.</li>
+  <li><strong>Resolves profile, tier, and stacks.</strong> The profile is asked every run and never inferred from current visibility.</li>
+  <li><strong>Fetches the pinned Baseline.</strong> Control IDs come from the versioned checklist, verbatim, never from model memory.</li>
+  <li><strong>Evaluates with evidence.</strong> Every control records pass, fail, n/a, or not_run alongside the file, setting, or command output that decided it.</li>
+  <li><strong>Reports, then stops.</strong> In audit mode nothing changes until you pick the fixes, and the report never lands in the repository tree.</li>
+</ol>
+
+<h2>What it will not do</h2>
+<ul class="rules">
+  <li>Invent a license, a security contact, an owner, or a homepage. It asks.</li>
+  <li>Make a repository public. That stays your action, always.</li>
+  <li>Force-push, rewrite history, or delete a branch.</li>
+  <li>Infer that a scanner passed because the scanner was missing. A missing tool is <code>not_run</code>.</li>
+</ul>
+
+<footer>
+  <span>Apache-2.0</span>
+  <a href="https://github.com/dcotelo/shipshape/blob/main/CONTRIBUTING.md">Contributing</a>
+  <a href="https://github.com/dcotelo/shipshape/blob/main/SECURITY.md">Security</a>
+  <a href="https://github.com/dcotelo">@dcotelo</a>
+</footer>
+
+</div>
+</body>
+</html>
