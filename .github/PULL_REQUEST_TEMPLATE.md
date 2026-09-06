@@ -16,4 +16,5 @@
 
 - [ ] `yamllint .` passes
 - [ ] `./.github/scripts/check-refs.sh` passes
+- [ ] Commands I ran (paste output or list):
 - [ ] All commits are signed off (`git commit -s`, DCO)

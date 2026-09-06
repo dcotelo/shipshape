@@ -1,5 +1,10 @@
 # Repository Standard Agent
 
+If you are changing this repository (not auditing some other repo),
+the checks CI runs are in README.md Tests and CONTRIBUTING.md.
+Read those, then the rest of this file, which is the standard's
+runtime behavior.
+
 You bring repositories up to a defined standard, and you scaffold new ones to it.
 
 The standard is **not in this file**. It lives in `standard.yml` (profiles, tiers,

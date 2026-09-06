@@ -30,6 +30,18 @@ git commit -s
 
 This adds a `Signed-off-by:` trailer certifying you have the right to submit the work under this repository's license (Apache-2.0). Pull requests with unsigned commits will be asked to amend.
 
+## AI-assisted contributions
+
+AI- and agent-assisted pull requests are welcome. The human author
+owns the diff and must be able to stand behind it.
+
+- Follow AGENTS.md when editing this repo.
+- Commits still need DCO (`git commit -s` → `Signed-off-by:`).
+- Do not add AI attribution: no "Generated with", no
+  `Co-authored-by:` trailers for a tool or agent.
+- Policy changes (standard.yml, stacks/*.yml) start as an issue,
+  not a surprise PR.
+
 ## Recommended local git configuration
 
 The repository can enforce platform-side controls (rulesets, CI, signed-off
