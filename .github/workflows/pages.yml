@@ -1,5 +1,17 @@
 name: pages
 
+# One-time setup, required before this workflow can publish anything:
+# set Settings -> Pages -> Source to "GitHub Actions", or run
+#   gh api -X POST repos/dcotelo/shipshape/pages -f build_type=workflow
+# Until then every run fails at the deploy step with "Pages site not found",
+# and the docs badge in README.md 404s.
+#
+# actions/configure-pages accepts enablement: true, which would turn the
+# setting on from CI instead. Deliberately not used: this repository's own
+# standard says an agent never changes a repository setting on its own
+# judgment, and a workflow that quietly flips one is the same thing wearing
+# a different hat. The owner enables it once, visibly.
+
 on:
   push:
     branches: [main]
