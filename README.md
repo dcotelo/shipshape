@@ -126,7 +126,7 @@ them, and a scanner that is not installed is `not_run`, never a pass.
 
 ```text
 Profile: public-oss   Tier: 2   Stacks: go, docker, agents
-Baseline: <pinned version>        Mode: AUDIT (dry run — nothing written)
+Baseline: <pinned version>        Mode: AUDIT (dry run — no repo or GitHub writes)
 
 pass 31   fail 6   n/a 4   not_run 2
 
@@ -143,8 +143,13 @@ Judgment
 Ranked fixes
   1. ...
 
+Phase 4 plan (printed, not applied)
+  gh api -X POST repos/<owner>/<repo>/rulesets --input - <<'JSON' ...
+  gh api -X PUT repos/<owner>/<repo>/vulnerability-alerts
+
 Not done
-  Phase 4 skipped: dry run. Would have created a ruleset with ...
+  Ruleset evaluate-enforcement gate: not_run, settling it needs a write
+  gitleaks: not installed
 ```
 
 Control IDs and counts above are placeholders for shape, not a real audit. The
