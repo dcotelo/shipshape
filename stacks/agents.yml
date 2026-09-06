@@ -1,0 +1,88 @@
+# Stack rules: agent-operable repositories — any repo that carries an operating
+# manual for coding agents. Checks that the manual is findable, single-source,
+# and matches what CI actually runs. Loads alongside the language stacks.
+detect:
+  - AGENTS.md
+  - CLAUDE.md
+  - GEMINI.md
+  - .cursor/rules
+  - .claude-plugin/plugin.json
+  - "skills/*/SKILL.md"
+
+rules:
+  - id: agents-md-present
+    check: >-
+      AGENTS.md exists at the repo root and is the operating manual for
+      coding agents (commands, conventions, hard rules). A nested
+      AGENTS.md under an app folder is extra, not a substitute.
+
+  - id: agents-md-matches-ci
+    check: >-
+      AGENTS.md names the commands CI actually runs. Evidence is a
+      command or script path that appears in both AGENTS.md and
+      .github/workflows/*. A README "run the tests" that does not
+      match CI is not enough. If there is no CI, this rule is n/a
+      with that reason.
+
+  - id: manuals-are-pointers
+    check: >-
+      CLAUDE.md, GEMINI.md, .cursor/rules, and skill launchers (if
+      present) point at AGENTS.md instead of restating commands.
+      Duplicate manuals that diverge are a fail. A one-line pointer
+      file is a pass.
+
+  - id: readme-links-agents
+    check: >-
+      If AGENTS.md exists, the root README links to it in one hop.
+      Agents that start on the GitHub landing page must find the
+      manual without listing the tree.
+
+  - id: discovery-surface
+    check: >-
+      The repo documents how to run the checks an agent should run,
+      in AGENTS.md. A root Makefile or package.json script is
+      optional. If neither exists, AGENTS.md must say so and give
+      the raw commands. Do not treat a missing Makefile as a fail.
+
+  - id: tests-can-fail
+    check: >-
+      Claimed gates must be able to fail. A CI step that only
+      echoes success, a test that cannot go red, or a checker that
+      treats "file missing" as pass is a fail. A missing scanner
+      is not_run, never pass.
+
+  - id: duplicated-lists-checked
+    check: >-
+      When the same identifier set is copied across languages or
+      files (module ids, target names, stack names, known-path
+      lists), CI includes an automated drift check. No check at
+      tier 2 is a fail. At tier 1, record it in judgment and mark
+      n/a with that reason. Do not require a particular script
+      name.
+
+  - id: pr-template-asks-evidence
+    check: >-
+      If a pull-request template exists, it asks what commands were
+      run (or points at AGENTS.md). "I tested it" with no command
+      is not evidence.
+
+required_status_checks: []
+
+scaffold:
+  # ci_commands: the exact commands CI runs, quoted from the real workflow —
+  # never invented, never a task runner the repo does not have (rule-1 value).
+  # create_claude_pointer: yes/no — whether to add CLAUDE.md as a pointer.
+  ask: [ci_commands, create_claude_pointer]
+  files:
+    - path: AGENTS.md
+      content: >-
+        operating manual for coding agents: opens by telling an agent that
+        opened a nested folder to read this file from the repo root first;
+        a build/test/lint section that lists ci_commands verbatim in a code
+        block and states they must match CI; a conventions section that
+        records real failure modes this repo has hit, not generic style rules
+    - path: CLAUDE.md
+      content: >-
+        only when create_claude_pointer is yes: a one-line pointer to
+        AGENTS.md (@AGENTS.md) — no commands, nothing duplicated
+  prove: "test -f AGENTS.md && grep -q AGENTS.md README.md"
