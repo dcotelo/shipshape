@@ -85,4 +85,11 @@ scaffold:
       content: >-
         only when create_claude_pointer is yes: a one-line pointer to
         AGENTS.md (@AGENTS.md) — no commands, nothing duplicated
-  prove: "test -f AGENTS.md && grep -q AGENTS.md README.md"
+  # Checks a real markdown link, not a bare mention: prose naming AGENTS.md
+  # would otherwise satisfy readme-links-agents with no link to follow, and a
+  # gate that cannot fail is what tests-can-fail rejects. The fence check
+  # catches an AGENTS.md left as an unfilled template with no commands in it.
+  prove: >-
+    test -f AGENTS.md && grep -q '^```' AGENTS.md &&
+    grep -qE '\]\([./]*AGENTS\.md[)#]' README.md &&
+    { test ! -f CLAUDE.md || grep -q AGENTS.md CLAUDE.md; }
