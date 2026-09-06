@@ -8,6 +8,19 @@ tone_instructions: >-
 
 reviews:
   profile: chill
+  # Bot approvals. main requires one approving review, and GitHub refuses to
+  # let an author approve their own PR ("Review Can not approve your own pull
+  # request"), so on a single-maintainer repo that count is unreachable and
+  # every merge needs an admin bypass. With this on, CodeRabbit requests
+  # changes while it has open findings and approves once they are resolved,
+  # the latest commit is reviewed, and no pre-merge check is failing.
+  #
+  # Read the approval for what it is: a machine confirming its own comments
+  # were addressed, not a second person agreeing with the change. It does not
+  # satisfy the intent of OSPS-QA-07.01, which wants independent human review,
+  # and this repository does not ask target repos to do the same. Adding a
+  # human reviewer is the only thing that would.
+  request_changes_workflow: true
   path_filters:
     - "!LICENSE"
   path_instructions:
