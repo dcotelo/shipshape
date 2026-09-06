@@ -12,12 +12,9 @@ Thanks for your interest in improving this repository standard.
 
 1. Open an issue describing the change before large edits — policy changes deserve discussion.
 2. Fork and branch from `main`.
-3. Make your change. Run the checks locally:
-   ```sh
-   python3 -m pip install yamllint
-   yamllint .
-   ./.github/scripts/check-refs.sh
-   ```
+3. Make your change. Run the checks locally: the canonical command block is
+   [README.md → Tests](README.md#tests), which is the same list CI runs. It is
+   kept in one place on purpose — a second copy here would drift.
 4. Open a pull request using the template. CI must pass.
 
 ## Developer Certificate of Origin (DCO)
@@ -29,6 +26,18 @@ git commit -s
 ```
 
 This adds a `Signed-off-by:` trailer certifying you have the right to submit the work under this repository's license (Apache-2.0). Pull requests with unsigned commits will be asked to amend.
+
+## AI-assisted contributions
+
+AI- and agent-assisted pull requests are welcome. The human author
+owns the diff and must be able to stand behind it.
+
+- Follow AGENTS.md when editing this repo.
+- Commits still need DCO (`git commit -s` → `Signed-off-by:`).
+- Do not add AI attribution: no "Generated with", no
+  `Co-authored-by:` trailers for a tool or agent.
+- Policy changes (standard.yml, stacks/*.yml) start as an issue,
+  not a surprise PR.
 
 ## Recommended local git configuration
 
