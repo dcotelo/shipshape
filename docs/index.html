@@ -159,10 +159,11 @@
 </ol>
 <p style="margin-top:1.25rem;color:var(--muted)">
   Ask for a <strong style="color:var(--ink)">dry run</strong> and the guarantee is stronger: it reads the tree, the
-  API, and the checklist, then writes nothing at all. No file, no git command that
-  writes, no API call that is not a read. The ruleset it would apply is printed
-  rather than sent, which is how you point it at a mature repository without
-  risking one.
+  API, and the checklist, then writes nothing to the repository or to GitHub. No file
+  in the tree, no git command that writes, no API call that is not a read. The
+  ruleset it would apply is printed rather than sent, and the report goes to stdout
+  unless you ask for a file, which lands outside the repository. That is how you
+  point it at a mature repository without risking one.
 </p>
 
 <h2>What it will not do</h2>

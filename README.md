@@ -101,10 +101,10 @@ Before first use, fill the placeholders in `standard.yml` (`org.owner`, `shared_
 
 ## Trying it on a repository you care about
 
-Point it at a mature repository and it will read a great deal and write
-nothing. Ask for a dry run:
+Point it at a mature repository and it will read a great deal and change
+nothing in it. Ask for a dry run:
 
-```
+```text
 /shipshape audit dry-run
 ```
 
@@ -113,10 +113,11 @@ follow it. Dry-run audit this repo."*
 
 A dry run reads the working tree, git history, the GitHub API, and the pinned
 Baseline checklist, and it runs whatever read-only scanners are installed. For
-the whole run it writes no file, runs no git command that writes, and sends
-nothing but reads to the GitHub API. Phase 4 prints the ruleset it would have
-applied instead of applying it, and the report goes to stdout, so a dry run
-leaves nothing behind. The full contract is the **Dry run** section of
+the whole run it writes nothing to the repository, runs no git command that
+writes, and sends nothing but reads to the GitHub API. Phase 4 prints the
+ruleset it would have applied instead of applying it, and the report goes to
+stdout. The one thing it will write is a report file you explicitly ask for,
+outside the repository tree. The full contract is the **Dry run** section of
 [`AGENTS.md`](AGENTS.md).
 
 The output is the audit report: a header, the counts, a row per control, the

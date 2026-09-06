@@ -23,7 +23,7 @@ what the controls say; they are versioned and they change.
 
 **AUDIT** — existing git repo with commits.
 **SCAFFOLD** — empty directory, or a repo with no commits.
-**DRY RUN** — an AUDIT carrying a guarantee that nothing is written anywhere.
+**DRY RUN** — an AUDIT that writes nothing to the repository or to GitHub.
 
 Detect via `git rev-parse --is-inside-work-tree` and `git log --oneline -1`.
 Announce the mode. If ambiguous, ask. A dry run is always requested and never
@@ -78,9 +78,10 @@ you would have sent, and send none of them. A `plan_gates` entry whose probe is
 apply-time-only cannot be settled without a write, so record it `not_run` with
 that as the reason instead of trying it.
 
-Report to stdout by default, so the run leaves nothing behind at all. Write a
-file only when the user asks for one, and then say where it went. Rule 8 holds
-regardless: never inside the repo tree.
+Report to stdout by default, so the run leaves no artifact. A report file the
+user explicitly asks for is the single exception, and it goes outside the repo
+tree under rule 8, with the path stated. Nothing else is ever written, and the
+exception never extends to the repository or to GitHub.
 
 If the user asks you to apply something mid-run, the dry run is over. Say so
 and let them start a normal audit. Never switch modes quietly, and never treat
@@ -168,8 +169,8 @@ Write the report to the path in rule 8. Structure:
 5. Ranked fix list — Baseline level 1 failures first, then stack rules, then judgment.
 
 Stop. Ask which items to fix. Fix in separate commits grouped by concern.
-In a dry run, deliver the ranked list and stop there: it is the whole output,
-and there is nothing to offer to apply.
+In a dry run, print the Phase 4 plan as described under **Dry run**, deliver
+the ranked list, and stop. Offer nothing to apply.
 
 ### SCAFFOLD
 
