@@ -12,12 +12,9 @@ Thanks for your interest in improving this repository standard.
 
 1. Open an issue describing the change before large edits — policy changes deserve discussion.
 2. Fork and branch from `main`.
-3. Make your change. Run the checks locally:
-   ```sh
-   python3 -m pip install yamllint
-   yamllint .
-   ./.github/scripts/check-refs.sh
-   ```
+3. Make your change. Run the checks locally: the canonical command block is
+   [README.md → Tests](README.md#tests), which is the same list CI runs. It is
+   kept in one place on purpose — a second copy here would drift.
 4. Open a pull request using the template. CI must pass.
 
 ## Developer Certificate of Origin (DCO)

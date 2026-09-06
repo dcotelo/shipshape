@@ -100,12 +100,13 @@ Before first use, fill the placeholders in `standard.yml` (`org.owner`, `shared_
 
 ## Tests
 
-CI runs `yamllint` over all YAML files, verifies that every path `AGENTS.md` references exists in the tree, and lints the scripts. Agents editing this repo follow `AGENTS.md`; the commands there are these same ones (yamllint, check-refs.sh, shellcheck):
+CI runs `yamllint` over all YAML files, verifies that every path the agent manuals reference exists in the tree, validates the plugin manifests, and lints the scripts. This block is the canonical command list: it is what [`ci.yml`](.github/workflows/ci.yml) runs, and what an agent following [`AGENTS.md`](AGENTS.md) runs. Keep the three in step.
 
 ```sh
-python3 -m pip install yamllint
-yamllint --strict .
+python3 -m pip install --user yamllint==1.37.1
+python3 -m yamllint --strict .
 ./.github/scripts/check-refs.sh
+jq empty .claude-plugin/plugin.json .claude-plugin/marketplace.json
 shellcheck .github/scripts/*.sh
 ```
 
