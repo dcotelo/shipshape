@@ -91,5 +91,5 @@ scaffold:
   # catches an AGENTS.md left as an unfilled template with no commands in it.
   prove: >-
     test -f AGENTS.md && grep -q '^```' AGENTS.md &&
-    grep -qE '\]\([./]*AGENTS\.md[)#]' README.md &&
+    grep -qE '(^|[^!])\[[^]]*\]\([./]*AGENTS\.md(#[^)]*)?\)' README.md &&
     { test ! -f CLAUDE.md || grep -q AGENTS.md CLAUDE.md; }
