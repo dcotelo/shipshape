@@ -169,8 +169,10 @@ Write the report to the path in rule 8. Structure:
 5. Ranked fix list — Baseline level 1 failures first, then stack rules, then judgment.
 
 Stop. Ask which items to fix. Fix in separate commits grouped by concern.
-In a dry run, print the Phase 4 plan as described under **Dry run**, deliver
-the ranked list, and stop. Offer nothing to apply.
+In a dry run, deliver the ranked list, then print the Phase 4 plan described
+under **Dry run**, then stop. Offer nothing to apply. The plan follows the
+ranked list because it is supporting detail about what was not done, not an
+instruction the reader acts on.
 
 ### SCAFFOLD
 
