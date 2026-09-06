@@ -5,6 +5,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/dcotelo/shipshape/ci.yml?style=for-the-badge&label=CI&labelColor=1a1b27&color=7aa2f7)](https://github.com/dcotelo/shipshape/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-1a1b27?style=for-the-badge&logoColor=7aa2f7&color=414868)](LICENSE)
 [![OSPS Baseline](https://img.shields.io/badge/OSPS_Baseline-2026.02.19-1a1b27?style=for-the-badge&color=7aa2f7)](https://baseline.openssf.org/)
+[![Docs](https://img.shields.io/badge/Docs-dcotelo.github.io-1a1b27?style=for-the-badge&color=414868)](https://dcotelo.github.io/shipshape/)
 
 </div>
 

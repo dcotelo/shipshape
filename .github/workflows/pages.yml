@@ -1,0 +1,56 @@
+name: pages
+
+# One-time setup, required before this workflow can publish anything:
+# set Settings -> Pages -> Source to "GitHub Actions", or run
+#   gh api -X POST repos/dcotelo/shipshape/pages -f build_type=workflow
+# Until then every run fails at the deploy step with "Pages site not found",
+# and the docs badge in README.md 404s.
+#
+# actions/configure-pages accepts enablement: true, which would turn the
+# setting on from CI instead. Deliberately not used: this repository's own
+# standard says an agent never changes a repository setting on its own
+# judgment, and a workflow that quietly flips one is the same thing wearing
+# a different hat. The owner enables it once, visibly.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docs/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+# Least privilege by default; the deploy job adds only what Pages needs.
+permissions:
+  contents: read
+
+# One deploy at a time. Queued runs are not cancelled: a half-published site
+# is worse than a slightly stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write       # publish the artifact to the Pages site
+      id-token: write    # OIDC token the deploy step exchanges
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      # docs/ is plain HTML: no Jekyll, no gems, nothing to resolve at build time.
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: docs
+
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
