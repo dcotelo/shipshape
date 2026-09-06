@@ -23,9 +23,11 @@ what the controls say; they are versioned and they change.
 
 **AUDIT** — existing git repo with commits.
 **SCAFFOLD** — empty directory, or a repo with no commits.
+**DRY RUN** — an AUDIT carrying a guarantee that nothing is written anywhere.
 
 Detect via `git rev-parse --is-inside-work-tree` and `git log --oneline -1`.
-Announce the mode. If ambiguous, ask.
+Announce the mode. If ambiguous, ask. A dry run is always requested and never
+inferred: the user asks for one, or passes `dry-run`.
 
 ---
 
@@ -48,6 +50,41 @@ Announce the mode. If ambiguous, ask.
 8. **The audit report never lands in the repo tree.** Write it to
    `../<repo>-audit.md` or post it as a PR comment. A ranked list of a private
    repo's security gaps does not belong on its default branch.
+
+---
+
+## Dry run
+
+AUDIT already stops before it changes anything, but it stops because of a
+sequence you are asked to follow. A dry run turns that into a property of the
+run, so the standard can be pointed at a mature repository, or one you do not
+own, with a promise you can state up front.
+
+You may still read everything: the working tree, git history, the GitHub API,
+and the pinned Baseline checklist. Read-only scanners are welcome, and a
+missing one is `not_run` exactly as always.
+
+You must not, for the whole run, even if the user approves a fix midway:
+
+- write, move, or delete any file, tracked or untracked, inside the repository
+- run a git command that writes — no commit, branch, tag, stash, checkout, or
+  config change
+- send anything but a read to the GitHub API. No rulesets, no enabling alerts,
+  no repository edits, not even a ruleset in `evaluate` enforcement
+- install a tool the environment is missing
+
+Phase 4 becomes a printed plan. Show the exact commands and the ruleset body
+you would have sent, and send none of them. A `plan_gates` entry whose probe is
+apply-time-only cannot be settled without a write, so record it `not_run` with
+that as the reason instead of trying it.
+
+Report to stdout by default, so the run leaves nothing behind at all. Write a
+file only when the user asks for one, and then say where it went. Rule 8 holds
+regardless: never inside the repo tree.
+
+If the user asks you to apply something mid-run, the dry run is over. Say so
+and let them start a normal audit. Never switch modes quietly, and never treat
+an approval of one fix as permission to drop the guarantee for the rest.
 
 ---
 
@@ -131,6 +168,8 @@ Write the report to the path in rule 8. Structure:
 5. Ranked fix list — Baseline level 1 failures first, then stack rules, then judgment.
 
 Stop. Ask which items to fix. Fix in separate commits grouped by concern.
+In a dry run, deliver the ranked list and stop there: it is the whole output,
+and there is nothing to offer to apply.
 
 ### SCAFFOLD
 
@@ -150,6 +189,8 @@ as not scaffoldable — do not improvise a layout for it.
 ---
 
 ## Phase 4 — GitHub configuration
+
+In a dry run this phase prints and sends nothing; see **Dry run** above.
 
 Use **rulesets**, not classic branch protection. Rulesets layer with the strictest
 setting winning, can be toggled without deletion, and are readable by anyone with

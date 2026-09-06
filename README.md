@@ -99,6 +99,58 @@ Before first use, fill the placeholders in `standard.yml` (`org.owner`, `shared_
 
 ---
 
+## Trying it on a repository you care about
+
+Point it at a mature repository and it will read a great deal and write
+nothing. Ask for a dry run:
+
+```
+/shipshape audit dry-run
+```
+
+or, without the plugin, tell the agent: *"Read the standard at AGENTS.md and
+follow it. Dry-run audit this repo."*
+
+A dry run reads the working tree, git history, the GitHub API, and the pinned
+Baseline checklist, and it runs whatever read-only scanners are installed. For
+the whole run it writes no file, runs no git command that writes, and sends
+nothing but reads to the GitHub API. Phase 4 prints the ruleset it would have
+applied instead of applying it, and the report goes to stdout, so a dry run
+leaves nothing behind. The full contract is the **Dry run** section of
+[`AGENTS.md`](AGENTS.md).
+
+The output is the audit report: a header, the counts, a row per control, the
+judgment section, and a ranked fix list. Rows carry the evidence that decided
+them, and a scanner that is not installed is `not_run`, never a pass.
+
+```text
+Profile: public-oss   Tier: 2   Stacks: go, docker, agents
+Baseline: <pinned version>        Mode: AUDIT (dry run — nothing written)
+
+pass 31   fail 6   n/a 4   not_run 2
+
+<control-id>  | pass    | .github/workflows/ci.yml pins all actions to SHAs
+<control-id>  | fail    | no SECURITY.md; no disclosure contact anywhere
+<control-id>  | n/a     | private repo cannot satisfy public readability
+<control-id>  | not_run | gitleaks not installed; no secret scan performed
+...
+
+Judgment
+  README assumes a preconfigured cluster: "just run make deploy" (README.md:64)
+  CONTRIBUTING describes a test command that no longer exists ...
+
+Ranked fixes
+  1. ...
+
+Not done
+  Phase 4 skipped: dry run. Would have created a ruleset with ...
+```
+
+Control IDs and counts above are placeholders for shape, not a real audit. The
+real ones come from the pinned checklist, verbatim, at run time.
+
+---
+
 ## Tests
 
 CI runs `yamllint` over all YAML files, verifies that every path the agent manuals reference exists in the tree, validates the plugin manifests, and lints the scripts. This block is the canonical command list: it is what [`ci.yml`](.github/workflows/ci.yml) runs, and what an agent following [`AGENTS.md`](AGENTS.md) runs. Keep the three in step.

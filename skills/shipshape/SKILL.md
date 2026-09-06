@@ -18,7 +18,7 @@ This skill is a launcher. **The standard is not in this file and not in your mem
 1. Read `../../AGENTS.md` (resolve the path from this SKILL.md's real location; the directory may be symlinked into your skills folder). Follow it exactly — it defines AUDIT vs SCAFFOLD, the hard rules, and every phase.
 2. Answer every policy question from `standard.yml` and `stacks/*.yml` only. If a rule you want to apply is not in those files, stop and say so — do not improvise policy, and do not substitute your own idea of a "repo standard".
 3. AGENTS.md requires fetching the pinned OSPS Baseline checklist at the start of the run. Never audit from memory of what the controls say.
-4. Arguments: `audit` or `scaffold` select the mode intent; a profile (`public-oss` | `internal`) may follow. AGENTS.md still requires detecting the mode and confirming the profile with the user.
+4. Arguments: `audit` or `scaffold` select the mode intent; `dry-run` asks for the read-only contract in AGENTS.md (nothing written, no API writes, report to stdout); a profile (`public-oss` | `internal`) may follow. AGENTS.md still requires detecting the mode and confirming the profile with the user.
 
 ## Red flags — stop, you are off the rails
 
