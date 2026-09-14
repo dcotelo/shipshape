@@ -1,6 +1,6 @@
-<svg viewBox="0 0 880 448" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" aria-labelledby="ttl desc" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+<svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" aria-labelledby="ttl desc" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
   <title id="ttl">A shipshape run: read, report, stop — then only what you picked</title>
-  <desc id="desc">A shipshape run in nine steps. The agent detects the mode, announcing AUDIT for a repository with commits or SCAFFOLD for an empty one; resolves the profile, tier and stacks, which are asked rather than inferred; fetches the pinned OpenSSF OSPS Baseline; and evaluates every control, recording pass, fail, n/a or not_run with evidence. It writes the report to ../&lt;repo&gt;-audit.md, outside the audited tree, and stops. Nothing below that line happens until you pick the fixes: only then does it fix in separate commits grouped by concern, apply GitHub configuration with rulesets in evaluate enforcement first, and close with a summary of counts, gh commands and what it did not do.</desc>
+  <desc id="desc">A shipshape run in nine steps. The agent detects the mode, announcing AUDIT for a repository with commits or SCAFFOLD for an empty one; resolves the profile, tier and stacks, which are asked rather than inferred; fetches the pinned OpenSSF OSPS Baseline; and evaluates every control, recording pass, fail, n/a or not_run with evidence. In AUDIT it writes the report to ../&lt;repo&gt;-audit.md, outside the audited tree, and stops: nothing below that line happens until you pick the fixes. Only then does it fix in separate commits grouped by concern, apply GitHub configuration with rulesets in evaluate enforcement first, and close with a summary of counts, gh commands and what it did not do. SCAFFOLD has no such gate — it generates against the same control set, re-runs the evaluation against its own output, and fixes until every applicable item passes.</desc>
   <style>
     :root {
       --bg: #ffffff; --surface: #f6f8fa; --surface-2: #eaeef2; --border: #d0d7de;
@@ -37,12 +37,12 @@
     </marker>
   </defs>
 
-  <rect width="880" height="448" rx="10" fill="var(--bg)"/>
-  <rect x="0.5" y="0.5" width="879" height="447" rx="10" fill="none" stroke="var(--border)"/>
+  <rect width="880" height="470" rx="10" fill="var(--bg)"/>
+  <rect x="0.5" y="0.5" width="879" height="469" rx="10" fill="none" stroke="var(--border)"/>
 
   <text x="440" y="20" text-anchor="middle" font-size="10" fill="var(--text-muted)" letter-spacing="1">A SHIPSHAPE RUN &#183; READ, REPORT, STOP &#8212; THEN ONLY WHAT YOU PICKED</text>
 
-  <text x="40" y="40" font-size="10" fill="var(--accent)" letter-spacing="1">READ-ONLY &#8212; THE AGENT CHANGES NOTHING IN THE REPO HERE</text>
+  <text x="40" y="40" font-size="10" fill="var(--accent)" letter-spacing="1">AUDIT &#183; READ-ONLY &#8212; THE AGENT CHANGES NOTHING IN THE REPO HERE</text>
 
   <rect x="40" y="52" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
   <text x="150" y="78" text-anchor="middle" font-size="13" fill="var(--text-bright)">detect mode</text>
@@ -79,13 +79,13 @@
 
   <rect class="dgm-gate" x="40" y="178" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
   <text x="150" y="204" text-anchor="middle" font-size="13" fill="var(--text-bright)">you pick the fixes</text>
-  <text x="150" y="222" text-anchor="middle" font-size="10" fill="var(--text-muted)">the agent stops here</text>
+  <text x="150" y="222" text-anchor="middle" font-size="10" fill="var(--text-muted)">AUDIT stops here</text>
 
   <line class="dgm-ants" x1="150" y1="242" x2="150" y2="300" stroke="var(--accent-2)" marker-end="url(#arB)"/>
   <text x="162" y="266" font-size="10" fill="var(--accent-2)">your call</text>
 
   <line x1="40" y1="272" x2="840" y2="272" stroke="var(--border)" stroke-dasharray="4 6"/>
-  <text x="840" y="264" text-anchor="end" font-size="10" fill="var(--text-muted)">nothing below this line happens until you say so</text>
+  <text x="840" y="264" text-anchor="end" font-size="10" fill="var(--text-muted)">in AUDIT, nothing below this line happens until you say so</text>
 
   <text x="280" y="294" font-size="10" fill="var(--accent-3)" letter-spacing="1">WRITES &#8212; ONLY WHAT YOU PICKED</text>
 
@@ -108,4 +108,5 @@
   <text x="40" y="392" font-size="10" fill="var(--text-muted)">a missing scanner is not_run &#8212; never pass; the absence of findings you could not look for is not evidence</text>
   <text x="40" y="410" font-size="10" fill="var(--text-muted)">the report is written outside the audited tree: a ranked list of a repo&#8217;s gaps is not default-branch content</text>
   <text x="40" y="428" font-size="10" fill="var(--text-muted)">license, security contact and owner are asked, never invented; the repo is never made public by the agent</text>
+  <text x="40" y="446" font-size="10" fill="var(--accent-3)">SCAFFOLD has no gate: it generates against the same set, re-evaluates its own output, and fixes until every applicable item passes</text>
 </svg>
