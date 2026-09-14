@@ -7,6 +7,7 @@ Thanks for your interest in improving this repository standard.
 - `AGENTS.md` — agent behavior only. **No policy.** If your change adds an opinion (a required file, a review count, a tool), it belongs in `standard.yml` or a stack file, not here.
 - `standard.yml` — policy: Baseline pin, profiles, tiers, house rules.
 - `stacks/*.yml` — per-stack rules. To add or extend a stack, follow the schema and design rules in [stacks/README.md](stacks/README.md).
+- `docs/assets/diagrams/` — hand-authored animated SVGs sharing one style, embedded with a plain `<img>` and never a `mermaid` fence: a fence cannot animate and cannot be reused between the README and the Pages site. The contract is a self-contained `:root` custom-property palette with a `@media (prefers-color-scheme: dark)` pair, an opaque `var(--bg)` card painted behind everything, CSS `@keyframes` only (`.dgm-flow`/`.dgm-ants` marching ants, `.dgm-gate` pulse on whichever box holds the authority), and a `@media (prefers-reduced-motion: reduce)` block that turns all of it off. The palette must be self-contained: an `<img>`-embedded SVG is isolated from the host page's CSS, and `prefers-color-scheme` there follows the OS rather than the page — which is why each file paints its own card instead of sitting transparent. Each file's `<desc>` is the source of the embedding page's `alt` text; change one and change the other.
 
 ## Process
 
