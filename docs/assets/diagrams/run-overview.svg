@@ -1,6 +1,6 @@
 <svg viewBox="0 0 880 470" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" aria-labelledby="ttl desc" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
   <title id="ttl">A shipshape run: read, report, stop — then only what you picked</title>
-  <desc id="desc">A shipshape run in nine steps. The agent detects the mode, announcing AUDIT for a repository with commits or SCAFFOLD for an empty one; resolves the profile, tier and stacks, which are asked rather than inferred; fetches the pinned OpenSSF OSPS Baseline; and evaluates every control, recording pass, fail, n/a or not_run with evidence. In AUDIT it writes the report to ../&lt;repo&gt;-audit.md, outside the audited tree, and stops: nothing below that line happens until you pick the fixes. Only then does it fix in separate commits grouped by concern, apply GitHub configuration with rulesets in evaluate enforcement first, and close with a summary of counts, gh commands and what it did not do. SCAFFOLD has no such gate — it generates against the same control set, re-runs the evaluation against its own output, and fixes until every applicable item passes.</desc>
+  <desc id="desc">A shipshape run in nine steps. The agent detects and announces the mode — AUDIT for a repository with commits, SCAFFOLD for an empty one, or a DRY RUN, which is an AUDIT that writes nothing and is always requested rather than inferred. It resolves the profile, tier and stacks, which are asked rather than inferred; fetches the pinned OpenSSF OSPS Baseline; and evaluates every control, recording pass, fail, n/a or not_run with evidence. In AUDIT it writes the report to ../&lt;repo&gt;-audit.md, outside the audited tree, and stops: nothing below that line happens until you pick the fixes. Only then does it fix in separate commits grouped by concern, apply GitHub configuration with rulesets in evaluate enforcement first, and close with a summary of counts, gh commands and what it did not do. A dry run never crosses that line at all — Phase 4 becomes a printed plan. SCAFFOLD has no gate — it generates against the same control set, re-runs the evaluation against its own output, and fixes until every applicable item passes.</desc>
   <style>
     :root {
       --bg: #ffffff; --surface: #f6f8fa; --surface-2: #eaeef2; --border: #d0d7de;
@@ -46,7 +46,7 @@
 
   <rect x="40" y="52" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
   <text x="150" y="78" text-anchor="middle" font-size="13" fill="var(--text-bright)">detect mode</text>
-  <text x="150" y="96" text-anchor="middle" font-size="10" fill="var(--text-muted)">AUDIT &#183; SCAFFOLD</text>
+  <text x="150" y="96" text-anchor="middle" font-size="10" fill="var(--text-muted)">AUDIT &#183; SCAFFOLD &#183; DRY RUN</text>
 
   <line class="dgm-flow" x1="264" y1="82" x2="326" y2="82" stroke="var(--text-muted)" marker-end="url(#ar)"/>
 
@@ -88,6 +88,7 @@
   <text x="840" y="264" text-anchor="end" font-size="10" fill="var(--text-muted)">in AUDIT, nothing below this line happens until you say so</text>
 
   <text x="280" y="294" font-size="10" fill="var(--accent-3)" letter-spacing="1">WRITES &#8212; ONLY WHAT YOU PICKED</text>
+  <text x="840" y="294" text-anchor="end" font-size="10" fill="var(--accent-4)">a DRY RUN never crosses this line</text>
 
   <rect x="40" y="304" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
   <text x="150" y="330" text-anchor="middle" font-size="13" fill="var(--text-bright)">fix</text>
