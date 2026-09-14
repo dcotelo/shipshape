@@ -1,0 +1,111 @@
+<svg viewBox="0 0 880 448" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" aria-labelledby="ttl desc" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+  <title id="ttl">A shipshape run: read, report, stop — then only what you picked</title>
+  <desc id="desc">A shipshape run in nine steps. The agent detects the mode, announcing AUDIT for a repository with commits or SCAFFOLD for an empty one; resolves the profile, tier and stacks, which are asked rather than inferred; fetches the pinned OpenSSF OSPS Baseline; and evaluates every control, recording pass, fail, n/a or not_run with evidence. It writes the report to ../&lt;repo&gt;-audit.md, outside the audited tree, and stops. Nothing below that line happens until you pick the fixes: only then does it fix in separate commits grouped by concern, apply GitHub configuration with rulesets in evaluate enforcement first, and close with a summary of counts, gh commands and what it did not do.</desc>
+  <style>
+    :root {
+      --bg: #ffffff; --surface: #f6f8fa; --surface-2: #eaeef2; --border: #d0d7de;
+      --text-bright: #1f2328; --text: #424a53; --text-muted: #656d76;
+      --accent: #0f7a5a; --accent-2: #0757ba; --accent-3: #8a4b00; --accent-4: #5b32b0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117; --surface: #161b22; --surface-2: #21262d; --border: #30363d;
+        --text-bright: #f0f6fc; --text: #c9d1d9; --text-muted: #8b949e;
+        --accent: #56d4a4; --accent-2: #58a6ff; --accent-3: #ffa657; --accent-4: #d2a8ff;
+      }
+    }
+    .dgm-flow { stroke-dasharray: 5 5; animation: dgm-flowdash 1.1s linear infinite; }
+    .dgm-ants { stroke-dasharray: 5 5; animation: dgm-antsdash 2.2s linear infinite; }
+    .dgm-gate { animation: dgm-lit 4s ease-in-out infinite; }
+    @keyframes dgm-flowdash { to { stroke-dashoffset: -20; } }
+    @keyframes dgm-antsdash { to { stroke-dashoffset: -20; } }
+    @keyframes dgm-lit {
+      0%, 100% { stroke: var(--border); }
+      10%, 22% { stroke: var(--accent-2); }
+      40% { stroke: var(--border); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dgm-flow, .dgm-ants, .dgm-gate { animation: none; }
+    }
+  </style>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--text-muted)"/>
+    </marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent-2)"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="448" rx="10" fill="var(--bg)"/>
+  <rect x="0.5" y="0.5" width="879" height="447" rx="10" fill="none" stroke="var(--border)"/>
+
+  <text x="440" y="20" text-anchor="middle" font-size="10" fill="var(--text-muted)" letter-spacing="1">A SHIPSHAPE RUN &#183; READ, REPORT, STOP &#8212; THEN ONLY WHAT YOU PICKED</text>
+
+  <text x="40" y="40" font-size="10" fill="var(--accent)" letter-spacing="1">READ-ONLY &#8212; THE AGENT CHANGES NOTHING IN THE REPO HERE</text>
+
+  <rect x="40" y="52" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="150" y="78" text-anchor="middle" font-size="13" fill="var(--text-bright)">detect mode</text>
+  <text x="150" y="96" text-anchor="middle" font-size="10" fill="var(--text-muted)">AUDIT &#183; SCAFFOLD</text>
+
+  <line class="dgm-flow" x1="264" y1="82" x2="326" y2="82" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+
+  <rect x="330" y="52" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="440" y="78" text-anchor="middle" font-size="13" fill="var(--text-bright)">resolve</text>
+  <text x="440" y="96" text-anchor="middle" font-size="10" fill="var(--text-muted)">profile &#183; tier &#183; stacks</text>
+
+  <line class="dgm-flow" x1="554" y1="82" x2="616" y2="82" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+
+  <rect x="620" y="52" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="730" y="78" text-anchor="middle" font-size="13" fill="var(--text-bright)">fetch the Baseline</text>
+  <text x="730" y="96" text-anchor="middle" font-size="10" fill="var(--text-muted)">pinned &#183; IDs verbatim</text>
+
+  <line class="dgm-flow" x1="730" y1="116" x2="730" y2="174" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+  <text x="742" y="149" font-size="10" fill="var(--text-muted)">every control</text>
+
+  <rect x="620" y="178" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="730" y="204" text-anchor="middle" font-size="13" fill="var(--text-bright)">evaluate</text>
+  <text x="730" y="222" text-anchor="middle" font-size="10" fill="var(--text-muted)">pass &#183; fail &#183; n/a &#183; not_run</text>
+
+  <line class="dgm-flow" x1="616" y1="208" x2="554" y2="208" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+  <text x="585" y="196" text-anchor="middle" font-size="10" fill="var(--text-muted)">evidence</text>
+
+  <rect x="330" y="178" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="440" y="204" text-anchor="middle" font-size="13" fill="var(--text-bright)">report</text>
+  <text x="440" y="222" text-anchor="middle" font-size="10" fill="var(--text-muted)">../&lt;repo&gt;-audit.md</text>
+
+  <line class="dgm-flow" x1="326" y1="208" x2="264" y2="208" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+  <text x="295" y="196" text-anchor="middle" font-size="10" fill="var(--text-muted)">then stop</text>
+
+  <rect class="dgm-gate" x="40" y="178" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="150" y="204" text-anchor="middle" font-size="13" fill="var(--text-bright)">you pick the fixes</text>
+  <text x="150" y="222" text-anchor="middle" font-size="10" fill="var(--text-muted)">the agent stops here</text>
+
+  <line class="dgm-ants" x1="150" y1="242" x2="150" y2="300" stroke="var(--accent-2)" marker-end="url(#arB)"/>
+  <text x="162" y="266" font-size="10" fill="var(--accent-2)">your call</text>
+
+  <line x1="40" y1="272" x2="840" y2="272" stroke="var(--border)" stroke-dasharray="4 6"/>
+  <text x="840" y="264" text-anchor="end" font-size="10" fill="var(--text-muted)">nothing below this line happens until you say so</text>
+
+  <text x="280" y="294" font-size="10" fill="var(--accent-3)" letter-spacing="1">WRITES &#8212; ONLY WHAT YOU PICKED</text>
+
+  <rect x="40" y="304" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="150" y="330" text-anchor="middle" font-size="13" fill="var(--text-bright)">fix</text>
+  <text x="150" y="348" text-anchor="middle" font-size="10" fill="var(--text-muted)">one commit per concern</text>
+
+  <line class="dgm-flow" x1="264" y1="334" x2="326" y2="334" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+
+  <rect x="330" y="304" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="440" y="330" text-anchor="middle" font-size="13" fill="var(--text-bright)">GitHub config</text>
+  <text x="440" y="348" text-anchor="middle" font-size="10" fill="var(--text-muted)">rulesets &#183; evaluate first</text>
+
+  <line class="dgm-flow" x1="554" y1="334" x2="616" y2="334" stroke="var(--text-muted)" marker-end="url(#ar)"/>
+
+  <rect x="620" y="304" width="220" height="60" rx="8" fill="var(--surface)" stroke="var(--border)"/>
+  <text x="730" y="330" text-anchor="middle" font-size="13" fill="var(--text-bright)">summary</text>
+  <text x="730" y="348" text-anchor="middle" font-size="10" fill="var(--text-muted)">counts &#183; commands &#183; gaps</text>
+
+  <text x="40" y="392" font-size="10" fill="var(--text-muted)">a missing scanner is not_run &#8212; never pass; the absence of findings you could not look for is not evidence</text>
+  <text x="40" y="410" font-size="10" fill="var(--text-muted)">the report is written outside the audited tree: a ranked list of a repo&#8217;s gaps is not default-branch content</text>
+  <text x="40" y="428" font-size="10" fill="var(--text-muted)">license, security contact and owner are asked, never invented; the repo is never made public by the agent</text>
+</svg>
