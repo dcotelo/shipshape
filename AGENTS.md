@@ -47,9 +47,13 @@ inferred: the user asks for one, or passes `dry-run`.
 6. **Never commit anything secret-shaped**, including realistic example values.
 7. In AUDIT mode, **change nothing** until the report exists and the user has
    picked what to fix.
-8. **The audit report never lands in the repo tree.** Write it to
-   `../<repo>-audit.md` or post it as a PR comment. A ranked list of a private
-   repo's security gaps does not belong on its default branch.
+8. **An audit report is never tracked while its findings are open.** Default to
+   stdout; write a file only when asked. A report with open failures goes to a
+   path the user names, outside the tree, or to a PR comment — a ranked list of
+   a repo's unfixed gaps is a to-do list for whoever reads it first. Once every
+   finding is closed, the report may be committed at `house.report.path`: that
+   one is a record of a passing state. In no state does a report go into a
+   directory the repository publishes — a Pages root, a site build input.
 
 ---
 
@@ -79,9 +83,11 @@ apply-time-only cannot be settled without a write, so record it `not_run` with
 that as the reason instead of trying it.
 
 Report to stdout by default, so the run leaves no artifact. A report file the
-user explicitly asks for is the single exception, and it goes outside the repo
-tree under rule 8, with the path stated. Nothing else is ever written, and the
-exception never extends to the repository or to GitHub.
+user explicitly asks for is the single exception, and it goes outside the
+repository tree, with the path stated — a dry run writes nothing inside it, so
+rule 8's committed path is unavailable here whatever the findings say. Nothing
+else is ever written, and the exception never extends to the repository or to
+GitHub.
 
 If the user asks you to apply something mid-run, the dry run is over. Say so
 and let them start a normal audit. Never switch modes quietly, and never treat
@@ -146,7 +152,7 @@ against the GitHub API, not assumed from repo contents.
 
 ### AUDIT
 
-Write the report to the path in rule 8. Structure:
+Deliver the report as rule 8 and `house.report` require. Structure:
 
 1. Profile, tier, stacks, Baseline version.
 2. Counts: pass / fail / n/a / not_run.
