@@ -29,16 +29,7 @@ The agent resolves profile and tier, fetches the pinned Baseline checklist (neve
 
 ## What a run looks like
 
-```mermaid
-flowchart LR
-    A[Detect mode<br/>AUDIT / SCAFFOLD] --> B[Resolve profile,<br/>tier & stacks]
-    B --> C[Fetch pinned<br/>Baseline checklist]
-    C --> D[Evaluate every control<br/>with evidence]
-    D --> E[Report to<br/>../repo-audit.md]
-    E --> F{You pick<br/>the fixes}
-    F --> G[Fix in commits<br/>grouped by concern]
-    G --> H[Apply GitHub config<br/>rulesets in evaluate mode]
-```
+<img src="docs/assets/diagrams/run-overview.svg" width="100%" alt="A shipshape run in nine steps. The agent detects and announces the mode — AUDIT for a repository with commits, SCAFFOLD for an empty one, or a DRY RUN, which is an AUDIT that writes nothing and is always requested rather than inferred. It resolves the profile, tier and stacks, which are asked rather than inferred; fetches the pinned OpenSSF OSPS Baseline; and evaluates every control, recording pass, fail, n/a or not_run with evidence. In AUDIT it writes the report to ../<repo>-audit.md, outside the audited tree, and stops: nothing below that line happens until you pick the fixes. Only then does it fix in separate commits grouped by concern, apply GitHub configuration with rulesets in evaluate enforcement first, and close with a summary of counts, gh commands and what it did not do. A dry run never crosses that line at all — Phase 4 becomes a printed plan. SCAFFOLD has no gate — it generates against the same control set, re-runs the evaluation against its own output, and fixes until every applicable item passes.">
 
 1. **Detect mode** — repo with commits → AUDIT; empty → SCAFFOLD. Announced, never assumed.
 2. **Resolve profile, tier, stacks** — profile is asked every run, never inferred from visibility; stacks are detected from the tree and confirmed.
