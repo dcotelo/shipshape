@@ -23,7 +23,7 @@ The security control set is the OSPS Baseline; the house rules align with the [O
 | `standard.yml` | All policy: pinned Baseline version, profiles (`public-oss` / `internal`), tiers, house merge/review rules, required files. |
 | `stacks/*.yml` | Per-stack rules (Go, TypeScript, Terraform, Atlantis, Docker, shell, agent manuals): detection patterns, required checks, CI status checks. |
 
-The agent resolves profile and tier, fetches the pinned Baseline checklist (never from memory), evaluates every applicable control with evidence, and writes the audit report to `../<repo>-audit.md` — never into the repo tree.
+The agent resolves profile and tier, fetches the pinned Baseline checklist (never from memory), evaluates every applicable control with evidence, and reports to stdout. A report is committed only once its findings are closed, at the path in `house.report` — never while it still lists a way in, and never into a directory the repository publishes.
 
 ---
 

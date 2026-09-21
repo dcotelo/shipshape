@@ -125,6 +125,24 @@ house:
     enable_wiki: false
     enable_issues: true
 
+  # Where an audit report goes (AGENTS.md rule 8). A run leaves no artifact
+  # unless one is asked for, and a report is tracked only once it has stopped
+  # being a list of ways in.
+  report:
+    default: stdout               # stdout | file
+    # Committed only when every finding is closed — a record of a passing
+    # state, not a to-do list. never: audit reports are never tracked here.
+    track_when: findings_resolved # findings_resolved | never
+    path: "audits/<date>-baseline-<version>.md"
+    # A file asked for while findings are open goes where the user says, and
+    # nowhere else. No default: inventing this path is a rule-1 mistake, and
+    # the repository's own tree is not a safe guess.
+    open_findings_path: null
+    # Directories the repository publishes. A report never lands in one,
+    # resolved or not: committing is not the same as publishing.
+    never_write_to:
+      - docs/          # Pages artifact root — see .github/workflows/pages.yml
+
   universal_files:
     - README.md
     - LICENSE
